@@ -76,14 +76,14 @@
 - [ ] Tampilkan statistik di dashboard
 
 ## Phase 8: UI / Frontend
-- [ ] Halaman login & register
-- [ ] Dashboard utama
-- [ ] Halaman "Connect Account" (OAuth)
-- [ ] Halaman "Upload" (form + preview)
-- [ ] Halaman "Daftar Konten" (list + status)
-- [ ] Halaman "Analytics" (statistik)
-- [ ] Halaman "Settings" (disconnect, ganti password)
-- [ ] Responsive (mobile + desktop)
+- [x] Halaman login & register
+- [x] Dashboard utama
+- [x] Halaman "Connect Account" (OAuth)
+- [x] Halaman "Upload" (form + preview)
+- [x] Halaman "Daftar Konten" (list + status)
+- [x] Halaman "Analytics" (statistik)
+- [x] Halaman "Settings" (disconnect, ganti password)
+- [x] Responsive (mobile + desktop)
 
 ## Phase 9: Testing & Quality
 - [ ] Test OAuth flow happy path
