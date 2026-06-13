@@ -25,8 +25,12 @@ interface AppContextProps {
   setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
 
   // Navigation
-  currentView: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings';
-  setCurrentView: (view: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings') => void;
+  currentView: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail';
+  setCurrentView: (view: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail') => void;
+
+  // Account Detail
+  selectedPage: ConnectedPage | null;
+  setSelectedPage: (page: ConnectedPage | null) => void;
 
   // Pages & Posts
   pages: ConnectedPage[];
@@ -158,7 +162,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   });
 
   // Navigation State
-  const [currentView, setCurrentView] = useState<'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail'>('dashboard');
+
+  // Account Detail State
+  const [selectedPage, setSelectedPage] = useState<ConnectedPage | null>(null);
 
   // Core App States
   const [pages, setPages] = useState<ConnectedPage[]>(() => getInitialPages());
@@ -391,6 +398,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentUser,
         currentView,
         setCurrentView,
+        selectedPage,
+        setSelectedPage,
         pages,
         setPages,
         posts,

@@ -9,6 +9,7 @@ import Upload from './pages/Upload';
 import Posts from './pages/Posts';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
+import AccountDetail from './pages/AccountDetail';
 import { CheckCircle2 } from 'lucide-react';
 import { saveConnection } from './api/ugc';
 
@@ -78,6 +79,7 @@ function AppContent() {
           {currentView === 'posts' && <Posts />}
           {currentView === 'analytics' && <Analytics />}
           {currentView === 'settings' && <Settings />}
+          {currentView === 'account-detail' && <AccountDetail />}
         </div>
       </main>
     </div>
