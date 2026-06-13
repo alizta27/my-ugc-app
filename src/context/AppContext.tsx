@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ConnectedPage, UploadLog, Platform, User } from '../types';
 import { initialPosts, mockSampleMedia } from '../mockData';
-import { getConnection, saveConnection, startFacebookOAuth, publishPhoto as apiPublishPhoto, fetchLivePageStats } from '../api/ugc';
+import { getConnection, publishPhoto as apiPublishPhoto, fetchLivePageStats, startFacebookAuth, fetchPageFromBackend, saveConnection } from '../api/ugc';
 
 interface AppContextProps {
   // Authentication & Profile
@@ -192,17 +192,31 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setSettingsEmail(currentUser.email);
   }, [currentUser]);
 
-  // Refresh live follower count dari Graph API setiap app dibuka
+  // Auto-connect dari backend saat app pertama dibuka
   useEffect(() => {
-    fetchLivePageStats().then((stats) => {
-      if (stats) {
-        // Update followers di state tanpa perlu login ulang
-        setPages(getInitialPages());
+    const initializeConnection = async () => {
+      const stored = getConnection();
+
+      // Jika belum ada koneksi di localStorage, ambil dari backend
+      if (!stored) {
+        const conn = await fetchPageFromBackend();
+        if (conn) {
+          saveConnection(conn);
+          setPages(getInitialPages());
+        }
+      } else {
+        // Refresh live follower count dari Graph API
+        const stats = await fetchLivePageStats();
+        if (stats) {
+          setPages(getInitialPages());
+        }
       }
-    });
+    };
+
+    void initializeConnection();
   }, []);
 
-  // Real OAuth Connection — redirect ke Facebook
+  // Static token Connection — redirect ke endpoint /api/auth/facebook
   const handleToggleConnection = (id: string) => {
     const page = pages.find(p => p.id === id);
     if (!page) return;
@@ -214,8 +228,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setPages(getInitialPages());
       }
     } else {
-      // Connect: redirect ke FB OAuth
-      startFacebookOAuth();
+      // Connect: redirect ke static auth endpoint
+      startFacebookAuth();
     }
   };
 
@@ -310,56 +324,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       return () => clearTimeout(timer);
     }
   }, [uploadSuccessAlert]);
-
-  // ============== OAUTH CALLBACK HANDLER ==============
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get('code');
-    const errorParam = url.searchParams.get('error');
-
-    if (errorParam) {
-      console.error('OAuth error:', url.searchParams.get('error_description') || errorParam);
-      url.searchParams.delete('code');
-      url.searchParams.delete('error');
-      url.searchParams.delete('error_description');
-      window.history.replaceState({}, '', url.toString());
-      return;
-    }
-
-    if (!code) return;
-
-    (async () => {
-      try {
-        const res = await fetch(`/api/auth/facebook/callback?code=${encodeURIComponent(code)}`, {
-          credentials: 'include',
-        });
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.error || `HTTP ${res.status}`);
-        }
-        const data = await res.json();
-
-        if (data.success) {
-          saveConnection({
-            page: data.page,
-            igBusinessId: data.instagram_business_account_id,
-            followers: data.followers ?? 0,
-            connectedAt: new Date().toISOString(),
-          });
-          setPages(getInitialPages());
-          setCurrentView('connect');
-        }
-      } catch (e) {
-        console.error('OAuth callback failed:', e);
-      } finally {
-        url.searchParams.delete('code');
-        url.searchParams.delete('error');
-        url.searchParams.delete('error_description');
-        url.searchParams.delete('state');
-        window.history.replaceState({}, '', url.toString());
-      }
-    })();
-  }, []);
 
   // Auth Handlers
   const handleLogin = (e: React.FormEvent) => {

@@ -70,7 +70,7 @@ export function clearConnection() {
 
 /**
  * Ambil statistik live dari Facebook Graph API menggunakan token yang sudah tersimpan.
- * Dipanggil kapan saja tanpa perlu login ulang, selama long-lived token belum expired (60 hari).
+ * Dipanggil kapan saja tanpa perlu login ulang.
  */
 export async function fetchLivePageStats(): Promise<{
   followers: number;
@@ -120,41 +120,29 @@ export async function fetchLivePageStats(): Promise<{
   }
 }
 
-// ============== OAUTH ==============
+// ============== STATIC AUTH ==============
 
 /**
- * Redirect ke Facebook OAuth flow.
- * Setelah user login, FB akan redirect balik ke /api/auth/facebook/callback
- * yang return JSON. Halaman callback akan capture response dan simpan ke localStorage.
+ * Ambil page detail langsung dari backend (yang pakai FB_STATIC_TOKEN
+ * & FB_PAGE_USERNAME dari .dev.vars). Return JSON payload.
+ * Dipakai untuk auto-connect saat app pertama dibuka.
  */
-export function startFacebookOAuth() {
-  window.location.href = `${API_BASE}/auth/facebook`;
+export async function fetchPageFromBackend(): Promise<StoredConnection | null> {
+  try {
+    const res = await fetch(`${API_BASE}/auth/facebook`);
+    if (!res.ok) return null;
+    return (await res.json()) as StoredConnection;
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Capture OAuth callback dari URL.
- * Dipanggil di halaman /callback atau root setelah redirect.
- *
- * Karena Pages Function callback return JSON (bukan redirect balik ke app),
- * kita pakai trick: buka callback di hidden iframe/popup dan listen ke postMessage.
- * ATAU: arahkan callback ke app page lalu extract dari response.
+ * Redirect ke endpoint static auth (legacy — saat ini endpoint-nya
+ * return JSON, tidak redirect, jadi sebaiknya pakai fetchPageFromBackend).
  */
-export async function captureOAuthCallback(): Promise<OAuthCallbackResponse | null> {
-  const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
-  if (!code) return null;
-
-  // Backend callback endpoint
-  const callbackUrl = `${API_BASE}/auth/facebook/callback?code=${encodeURIComponent(code)}`;
-
-  try {
-    const res = await fetch(callbackUrl, { credentials: "include" });
-    if (!res.ok) return null;
-    return (await res.json()) as OAuthCallbackResponse;
-  } catch (err) {
-    console.error("OAuth callback error:", err);
-    return null;
-  }
+export function startFacebookAuth() {
+  window.location.href = `${API_BASE}/auth/facebook`;
 }
 
 // ============== PUBLISH ==============
