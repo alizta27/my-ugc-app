@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ConnectedPage, UploadLog, Platform, User } from '../types';
 import { initialPosts, mockSampleMedia } from '../mockData';
-import { getConnection, publishPhoto as apiPublishPhoto, fetchLivePageStats, startFacebookAuth, fetchPageFromBackend, saveConnection } from '../api/ugc';
+import { getConnection, publishPhoto as apiPublishPhoto, startFacebookAuth, fetchPageFromBackend, saveConnection } from '../api/ugc';
 
 interface AppContextProps {
   // Authentication & Profile
@@ -95,10 +95,10 @@ export const getInitialPages = (): ConnectedPage[] => {
       platform: 'facebook',
       name: conn.page.name,
       username: conn.page.name.toLowerCase().replace(/\s+/g, '.'),
-      avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+      avatar: conn.page.picture || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
       isConnected: true,
       connectedAt: conn.connectedAt,
-      followers: conn.followers ?? 0
+      followers: conn.followers_count ?? conn.followers ?? 0
     });
   } else {
     pages.push({
@@ -192,24 +192,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setSettingsEmail(currentUser.email);
   }, [currentUser]);
 
-  // Auto-connect dari backend saat app pertama dibuka
+  // Auto-connect dari backend saat app pertama dibuka - selalu fetch dari FB untuk data terbaru
   useEffect(() => {
     const initializeConnection = async () => {
-      const stored = getConnection();
-
-      // Jika belum ada koneksi di localStorage, ambil dari backend
-      if (!stored) {
-        const conn = await fetchPageFromBackend();
-        if (conn) {
-          saveConnection(conn);
-          setPages(getInitialPages());
-        }
-      } else {
-        // Refresh live follower count dari Graph API
-        const stats = await fetchLivePageStats();
-        if (stats) {
-          setPages(getInitialPages());
-        }
+      const conn = await fetchPageFromBackend();
+      if (conn) {
+        saveConnection(conn);
+        setPages(getInitialPages());
       }
     };
 

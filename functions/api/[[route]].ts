@@ -36,14 +36,16 @@ async function fetchPagePayload(c: { env: Bindings }) {
   const username = c.env.FB_PAGE_USERNAME || "sapmahanura10";
 
   const detailRes = await fetch(
-    `https://graph.facebook.com/v25.0/${username}?fields=id,name,access_token,fan_count,instagram_business_account&access_token=${token}`,
+    `https://graph.facebook.com/v25.0/${username}?fields=id,name,access_token,fan_count,followers_count,instagram_business_account,picture.type(large)&access_token=${token}`,
   );
   const detail = (await detailRes.json()) as {
     id?: string;
     name?: string;
     access_token?: string;
     fan_count?: number;
+    followers_count?: number;
     instagram_business_account?: { id: string };
+    picture?: { data?: { url: string } };
     error?: { message: string; code?: number };
   };
 
@@ -61,9 +63,11 @@ async function fetchPagePayload(c: { env: Bindings }) {
         name: detail.name || username,
         username: username,
         access_token: detail.access_token || token,
+        picture: detail.picture?.data?.url,
       },
       igBusinessId: detail.instagram_business_account?.id || null,
       followers: detail.fan_count ?? 0,
+      followers_count: detail.followers_count ?? detail.fan_count ?? 0,
       connectedAt: new Date().toISOString(),
     },
   };

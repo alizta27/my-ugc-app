@@ -9,6 +9,7 @@ export interface FacebookPage {
   name: string;
   username?: string;
   access_token: string;
+  picture?: string;
 }
 
 export interface OAuthCallbackResponse {
@@ -47,6 +48,7 @@ export interface StoredConnection {
   page: FacebookPage;
   igBusinessId: string | null;
   followers: number;
+  followers_count?: number;
   connectedAt: string;
 }
 
