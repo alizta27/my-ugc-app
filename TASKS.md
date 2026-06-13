@@ -20,10 +20,12 @@
 - [ ] Siapkan domain (opsional)
 
 ## Phase 1: Setup Project
-- [ ] Setup backend project (Node.js + Express + TypeScript)
-- [ ] Setup **PostgreSQL** + Prisma ORM
-- [ ] Setup **Redis** (untuk queue)
-- [ ] Setup **Cloudflare R2 / S3** untuk storage
+- [x] Setup Pages Functions — see `functions/api/[[route]].ts`
+- [x] Setup **Cloudflare R2 / S3** untuk storage
+- [ ] Setup **PostgreSQL** + D1 (Cloudflare) atau Prisma (Railway)
+- [ ] Setup **Redis** (Cloudflare KV / Upstash)
+- [x] Upgrade **Node.js** ke v22+ (nvm use 22)
+
 - [ ] Setup environment variables (.env)
 - [ ] Setup logging & error tracking (Sentry, opsional)
 
@@ -36,19 +38,21 @@
 - [ ] Middleware protect route
 
 ## Phase 3: OAuth Facebook (Konek IG + FB Page)
-- [ ] Schema database: `connected_pages`
-- [ ] Setup Facebook OAuth flow (Login + pilih Page)
-- [ ] Ambil **long-lived Page Access Token**
-- [ ] Ambil **IG Business Account ID** yang terhubung
+- [x] Setup Facebook OAuth flow (Login + pilih Page) — `functions/api/auth/facebook/`
+- [x] Ambil **long-lived Page Access Token** — `callback.ts`
+- [x] Ambil **IG Business Account ID** yang terhubung — `callback.ts`
+- [ ] Schema database: `connected_pages` (D1 / PostgreSQL)
 - [ ] Simpan token terenkripsi (AES-256) di database
 - [ ] Refresh token otomatis sebelum expired
 - [ ] Disconnect / hapus koneksi
+- [ ] Test OAuth flow happy path (butuh Node v22+)
+
 
 ## Phase 4: Upload & Publish Foto
-- [ ] Schema database: `media_uploads`
+- [x] API: publish foto ke IG + FB — `functions/api/[[route]].ts` (endpoint `/api/publish/photo`)
+- [x] Validation + error handling tested ✅
+- [ ] Schema database: `media_uploads` (D1)
 - [ ] Upload foto ke R2/S3 dari frontend
-- [ ] API: publish foto ke IG (image_url + caption)
-- [ ] API: publish foto ke FB Page (image_url + caption)
 - [ ] Simpan `ig_post_id` & `fb_post_id` ke database
 - [ ] Handle status: pending, success, failed
 - [ ] Handle error & retry logic

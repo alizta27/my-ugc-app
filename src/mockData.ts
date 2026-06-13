@@ -1,45 +1,6 @@
 import type { ConnectedPage, UploadLog, ChartDataPoint } from './types';
 
-export const initialPages: ConnectedPage[] = [
-  {
-    id: 'page_1',
-    platform: 'facebook',
-    name: 'TechGear Academy',
-    username: 'techgear.academy',
-    avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
-    isConnected: true,
-    connectedAt: '2026-05-10T08:30:00Z',
-    followers: 12450
-  },
-  {
-    id: 'page_2',
-    platform: 'instagram',
-    name: 'TechGear UGC Creator',
-    username: 'techgear_ugc',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    isConnected: true,
-    connectedAt: '2026-05-10T08:32:00Z',
-    followers: 8920
-  },
-  {
-    id: 'page_3',
-    platform: 'facebook',
-    name: 'IndoFoodies Guide',
-    username: 'indofoodies.guide',
-    avatar: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=150&auto=format&fit=crop&q=80',
-    isConnected: false,
-    followers: 24300
-  },
-  {
-    id: 'page_4',
-    platform: 'instagram',
-    name: 'indofoodies_official',
-    username: 'indofoodies_official',
-    avatar: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=150&auto=format&fit=crop&q=80',
-    isConnected: false,
-    followers: 45600
-  }
-];
+export const initialPages: ConnectedPage[] = [];
 
 export const initialPosts: UploadLog[] = [
   {
