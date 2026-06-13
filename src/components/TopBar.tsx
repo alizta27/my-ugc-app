@@ -1,17 +1,19 @@
-import { useApp } from '../context/AppContext';
+import { useLocation } from 'react-router-dom';
 
 export default function TopBar() {
-  const { currentView } = useApp();
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <header className="top-bar">
       <h2 className="page-title">
-        {currentView === 'dashboard' && 'Dashboard Overview'}
-        {currentView === 'connect' && 'Koneksi Halaman & Akun'}
-        {currentView === 'upload' && 'Buat & Unggah Konten'}
-        {currentView === 'posts' && 'Riwayat & Status Publikasi'}
-        {currentView === 'analytics' && 'Kinerja Konten'}
-        {currentView === 'settings' && 'Pengaturan Akun'}
+        {path === '/' && 'Dashboard Overview'}
+        {path === '/connect' && 'Koneksi Halaman & Akun'}
+        {path === '/upload' && 'Buat & Unggah Konten'}
+        {path === '/posts' && 'Riwayat & Status Publikasi'}
+        {path === '/analytics' && 'Kinerja Konten'}
+        {path === '/settings' && 'Pengaturan Akun'}
+        {path.startsWith('/account/') && 'Detail Akun'}
       </h2>
 
       <div style={{ display: 'flex', gap: '12px' }}>

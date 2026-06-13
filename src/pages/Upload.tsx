@@ -4,8 +4,10 @@ import { mockSampleMedia } from '../mockData';
 import { Facebook, Instagram } from '../components/Icons';
 import IGMockup from '../components/IGMockup';
 import FBMockup from '../components/FBMockup';
+import { useNavigate } from 'react-router-dom';
 
 export default function Upload() {
+  const navigate = useNavigate();
   const {
     pages,
     postTitle,
@@ -24,8 +26,7 @@ export default function Upload() {
     setMediaSource,
     activePreviewTab,
     setActivePreviewTab,
-    handlePublishPost,
-    setCurrentView
+    handlePublishPost
   } = useApp();
 
   const connectedFB = pages.filter(p => p.platform === 'facebook' && p.isConnected);
@@ -40,7 +41,7 @@ export default function Upload() {
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', maxWidth: '460px', margin: '0 auto 24px' }}>
             Anda perlu mengaktifkan minimal satu halaman Facebook atau akun Instagram di tab **Koneksi Akun** sebelum bisa mempublikasikan konten.
           </p>
-          <button className="btn btn-primary" onClick={() => setCurrentView('connect')}>
+          <button className="btn btn-primary" onClick={() => navigate('/connect')}>
             Ke Koneksi Akun
           </button>
         </div>

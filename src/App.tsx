@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { AppProvider, useApp, getInitialPages } from './context/AppContext';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
@@ -16,11 +17,10 @@ import { saveConnection } from './api/ugc';
 function AppContent() {
   const {
     isAuthenticated,
-    currentView,
-    setCurrentView,
     uploadSuccessAlert,
     setPages,
   } = useApp();
+  const navigate = useNavigate();
 
   // Handle Facebook OAuth callback redirect
   useEffect(() => {
@@ -46,11 +46,16 @@ function AppContent() {
 
     // Bersihkan URL dan arahkan ke halaman Connect
     window.history.replaceState({}, '', '/');
-    setCurrentView('connect');
-  }, []);
+    navigate('/connect');
+  }, [navigate, setPages]);
 
   if (!isAuthenticated) {
-    return <Auth />;
+    return (
+      <Routes>
+        <Route path="/login" element={<Auth />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
   }
 
   return (
@@ -68,18 +73,22 @@ function AppContent() {
             <div className="alert success fade-in" style={{ marginBottom: '24px' }}>
               <CheckCircle2 size={18} />
               <div>
-                <strong>Postingan berhasil dikirim ke antrean!</strong> Konten Anda saat ini sedang diproses. Periksa status di tab <span style={{ textDecoration: 'underline', cursor: 'pointer', fontWeight: 600 }} onClick={() => setCurrentView('posts')}>Daftar Konten</span>.
+                <strong>Postingan berhasil dikirim ke antrean!</strong> Konten Anda saat ini sedang diproses. Periksa status di tab <span style={{ textDecoration: 'underline', cursor: 'pointer', fontWeight: 600 }} onClick={() => navigate('/posts')}>Daftar Konten</span>.
               </div>
             </div>
           )}
 
-          {currentView === 'dashboard' && <Dashboard />}
-          {currentView === 'connect' && <Connect />}
-          {currentView === 'upload' && <Upload />}
-          {currentView === 'posts' && <Posts />}
-          {currentView === 'analytics' && <Analytics />}
-          {currentView === 'settings' && <Settings />}
-          {currentView === 'account-detail' && <AccountDetail />}
+          <Routes>
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/connect" element={<Connect />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/posts" element={<Posts />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/account/:id" element={<AccountDetail />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </main>
     </div>
@@ -88,8 +97,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <BrowserRouter>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </BrowserRouter>
   );
 }

@@ -2,8 +2,11 @@ import { FileText, Heart, Eye, TrendingUp, Plus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Facebook, Instagram } from '../components/Icons';
 
+import { useNavigate } from 'react-router-dom';
+
 export default function Dashboard() {
-  const { posts, pages, setCurrentView } = useApp();
+  const { posts, pages } = useApp();
+  const navigate = useNavigate();
 
   const connectedFB = pages.filter(p => p.platform === 'facebook' && p.isConnected);
   const connectedIG = pages.filter(p => p.platform === 'instagram' && p.isConnected);
@@ -54,7 +57,7 @@ export default function Dashboard() {
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Integrasi Media Sosial</h3>
-            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => setCurrentView('connect')}>
+            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => navigate('/connect')}>
               Kelola Koneksi
             </button>
           </div>
@@ -89,7 +92,7 @@ export default function Dashboard() {
               <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--primary-hover)' }}>Siap untuk Mengunggah Konten?</h4>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Publikasikan foto atau ulasan setup Anda sekaligus ke Facebook dan Instagram.</p>
             </div>
-            <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }} onClick={() => setCurrentView('upload')}>
+            <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }} onClick={() => navigate('/upload')}>
               Mulai Upload <Plus size={14} />
             </button>
           </div>
@@ -99,7 +102,7 @@ export default function Dashboard() {
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Aktivitas Terbaru</h3>
-            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => setCurrentView('posts')}>
+            <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => navigate('/posts')}>
               Lihat Semua
             </button>
           </div>

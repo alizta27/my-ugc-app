@@ -12,6 +12,16 @@ export interface FacebookPage {
   picture?: string;
 }
 
+export interface GraphPost {
+  id: string;
+  message?: string;
+  full_picture?: string;
+  created_time: string;
+  shares?: { count: number };
+  comments?: { summary: { total_count: number } };
+  likes?: { summary: { total_count: number } };
+}
+
 export interface OAuthCallbackResponse {
   success: boolean;
   page: FacebookPage;

@@ -2,8 +2,11 @@ import { useApp } from "../context/AppContext";
 import { Facebook, Instagram } from "../components/Icons";
 import { ChevronRight } from "lucide-react";
 
+import { useNavigate } from 'react-router-dom';
+
 export default function Connect() {
-  const { pages, setCurrentView, setSelectedPage } = useApp();
+  const { pages } = useApp();
+  const navigate = useNavigate();
 
   return (
     <div className="fade-in">
@@ -110,8 +113,7 @@ export default function Connect() {
               {page.isConnected && (
                 <button
                   onClick={() => {
-                    setSelectedPage(page);
-                    setCurrentView("account-detail");
+                    navigate(`/account/${page.id}`);
                   }}
                   style={{
                     width: "100%",

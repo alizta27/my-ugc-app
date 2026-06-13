@@ -16,6 +16,7 @@ export interface ConnectedPage {
   isConnected: boolean;
   connectedAt?: string;
   followers: number;
+  accessToken?: string;
 }
 
 export type PostStatus = 'processing' | 'success' | 'failed';

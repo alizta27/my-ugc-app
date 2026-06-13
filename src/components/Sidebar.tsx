@@ -7,10 +7,11 @@ import {
   Settings,
   LogOut
 } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function Sidebar() {
-  const { currentView, setCurrentView, currentUser, handleLogout } = useApp();
+  const { currentUser, handleLogout } = useApp();
 
   return (
     <aside className="sidebar">
@@ -23,58 +24,58 @@ export default function Sidebar() {
         <nav>
           <ul className="nav-list">
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'dashboard' ? 'active' : ''}`}
-                onClick={() => setCurrentView('dashboard')}
+              <NavLink
+                to="/"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <LayoutDashboard size={18} />
                 <span>Dashboard</span>
-              </button>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'connect' ? 'active' : ''}`}
-                onClick={() => setCurrentView('connect')}
+              <NavLink
+                to="/connect"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <Link2 size={18} />
                 <span>Koneksi Akun</span>
-              </button>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'upload' ? 'active' : ''}`}
-                onClick={() => setCurrentView('upload')}
+              <NavLink
+                to="/upload"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <UploadCloud size={18} />
                 <span>Buat Konten</span>
-              </button>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'posts' ? 'active' : ''}`}
-                onClick={() => setCurrentView('posts')}
+              <NavLink
+                to="/posts"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <FileText size={18} />
                 <span>Daftar Konten</span>
-              </button>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'analytics' ? 'active' : ''}`}
-                onClick={() => setCurrentView('analytics')}
+              <NavLink
+                to="/analytics"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <BarChart3 size={18} />
                 <span>Statistik / Analitik</span>
-              </button>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <button
-                className={`nav-button ${currentView === 'settings' ? 'active' : ''}`}
-                onClick={() => setCurrentView('settings')}
+              <NavLink
+                to="/settings"
+                className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}
               >
                 <Settings size={18} />
                 <span>Pengaturan</span>
-              </button>
+              </NavLink>
             </li>
           </ul>
         </nav>

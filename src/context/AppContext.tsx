@@ -24,10 +24,6 @@ interface AppContextProps {
   currentUser: User;
   setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
 
-  // Navigation
-  currentView: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail';
-  setCurrentView: (view: 'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail') => void;
-
   // Account Detail
   selectedPage: ConnectedPage | null;
   setSelectedPage: (page: ConnectedPage | null) => void;
@@ -102,7 +98,8 @@ export const getInitialPages = (): ConnectedPage[] => {
       avatar: conn.page.picture || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
       isConnected: true,
       connectedAt: conn.connectedAt,
-      followers: conn.followers_count ?? conn.followers ?? 0
+      followers: conn.followers_count ?? conn.followers ?? 0,
+      accessToken: conn.page.access_token
     });
   } else {
     pages.push({
@@ -143,7 +140,10 @@ export const getInitialPages = (): ConnectedPage[] => {
   return pages;
 };
 
+import { useNavigate } from 'react-router-dom';
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
   // Authentication & Profile States
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
@@ -161,8 +161,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
   });
 
-  // Navigation State
-  const [currentView, setCurrentView] = useState<'dashboard' | 'connect' | 'upload' | 'posts' | 'analytics' | 'settings' | 'account-detail'>('dashboard');
 
   // Account Detail State
   const [selectedPage, setSelectedPage] = useState<ConnectedPage | null>(null);
@@ -242,7 +240,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const conn = getConnection();
     if (!conn) {
       alert('Hubungkan akun Facebook terlebih dahulu!');
-      setCurrentView('connect');
+      navigate('/connect');
       return;
     }
 
@@ -396,8 +394,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setAuthError,
         currentUser,
         setCurrentUser,
-        currentView,
-        setCurrentView,
         selectedPage,
         setSelectedPage,
         pages,
