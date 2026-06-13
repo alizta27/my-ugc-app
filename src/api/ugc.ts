@@ -7,6 +7,7 @@ const API_BASE = "/api";
 export interface FacebookPage {
   id: string;
   name: string;
+  about?: string;
   username?: string;
   access_token: string;
   picture?: string;
@@ -15,11 +16,43 @@ export interface FacebookPage {
 export interface GraphPost {
   id: string;
   message?: string;
+  story?: string;
   full_picture?: string;
+  permalink_url?: string;
   created_time: string;
   shares?: { count: number };
-  comments?: { summary: { total_count: number } };
+  comments?: {
+    data?: Array<{
+      id: string;
+      message: string;
+      created_time: string;
+      from?: { id: string; name: string };
+    }>;
+    summary: { total_count: number };
+  };
   likes?: { summary: { total_count: number } };
+  attachments?: {
+    data?: Array<{
+      media?: {
+        image?: { src: string };
+        source?: string;
+      };
+      type?: string;
+      url?: string;
+    }>;
+  };
+}
+
+export interface PostEngagement {
+  likes?: { summary: { total_count: number } };
+  comments?: { summary: { total_count: number } };
+  shares?: { count: number };
+  reactions?: { summary: { total_count: number } };
+  love?: { summary: { total_count: number } };
+  wow?: { summary: { total_count: number } };
+  haha?: { summary: { total_count: number } };
+  sad?: { summary: { total_count: number } };
+  angry?: { summary: { total_count: number } };
 }
 
 export interface OAuthCallbackResponse {

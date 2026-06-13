@@ -12,6 +12,7 @@ export interface ConnectedPage {
   platform: Platform;
   name: string;
   username: string;
+  bio?: string;
   avatar: string;
   isConnected: boolean;
   connectedAt?: string;

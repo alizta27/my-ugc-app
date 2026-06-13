@@ -14,172 +14,55 @@ export default function AccountDetailFB({ page }: AccountDetailFBProps) {
   return (
     <div className="fade-in">
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          marginBottom: "24px",
-        }}
-      >
+      <div className="account-detail-header">
         <button
-          onClick={() => {
-            navigate("/connect");
-          }}
-          style={{
-            background: "none",
-            border: "none",
-            color: "var(--text-secondary)",
-            cursor: "pointer",
-            padding: "4px",
-            display: "flex",
-            alignItems: "center",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color =
-              "var(--text-primary)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color =
-              "var(--text-secondary)";
-          }}
+          onClick={() => navigate("/connect")}
+          className="back-btn"
         >
           <ArrowLeft size={20} />
         </button>
-        <h2 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Detail Halaman Facebook</h2>
+        <h2 className="title">Detail Halaman Facebook</h2>
       </div>
 
       {/* Main Profile Card */}
-      <div className="glass-card" style={{ marginBottom: "24px" }}>
-        <div
-          style={{
-            display: "flex",
-            gap: "24px",
-            alignItems: "start",
-            marginBottom: "32px",
-          }}
-        >
+      <div className="glass-card account-detail-card">
+        <div className="profile-section">
           {/* Avatar */}
-          <div style={{ flex: "0 0 auto" }}>
+          <div className="profile-avatar-wrapper">
             <img
               src={page.avatar}
-              style={{
-                width: "120px",
-                height: "120px",
-                borderRadius: "12px",
-                objectFit: "cover",
-              }}
+              className="profile-avatar"
               alt=""
             />
           </div>
 
           {/* Info */}
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "8px",
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: "1.3rem",
-                  fontWeight: 700,
-                  color: "var(--text-primary)",
-                }}
-              >
-                {page.name}
-              </h3>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  padding: "4px 8px",
-                  backgroundColor: "var(--primary-glow)",
-                  borderRadius: "6px",
-                }}
-              >
+          <div className="profile-info">
+            <div className="profile-name-row">
+              <h3 className="profile-name">{page.name}</h3>
+              <div className="platform-badge">
                 {page.platform === "facebook" ? (
                   <Facebook size={16} style={{ color: "var(--fb-color)" }} />
                 ) : (
                   <Instagram size={16} style={{ color: "#ec4899" }} />
                 )}
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 600,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {page.platform}
-                </span>
+                <span className="platform-text">{page.platform}</span>
               </div>
             </div>
 
-            <p
-              style={{
-                fontSize: "0.95rem",
-                color: "var(--text-secondary)",
-                marginBottom: "16px",
-              }}
-            >
-              {page.platform === "facebook"
-                ? page.username
-                : `@${page.username}`}
+            <p className={`profile-username ${page.bio ? "with-bio" : "no-bio"}`}>
+              {page.platform === "facebook" ? page.username : `@${page.username}`}
             </p>
 
-            <div style={{ display: "flex", gap: "12px" }}>
-              <button
-                style={{
-                  padding: "8px 16px",
-                  backgroundColor: "var(--primary)",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--primary-hover)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "var(--primary)";
-                }}
-              >
+            {page.bio && (
+              <p className="profile-bio">{page.bio}</p>
+            )}
+
+            <div className="profile-actions">
+              <button className="action-btn-primary">
                 <Share2 size={16} /> Bagikan
               </button>
-              <button
-                style={{
-                  padding: "8px 16px",
-                  backgroundColor: "transparent",
-                  color: "var(--text-secondary)",
-                  border: "1px solid var(--border-color)",
-                  borderRadius: "8px",
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--text-secondary)";
-                  e.currentTarget.style.color = "var(--text-primary)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--border-color)";
-                  e.currentTarget.style.color = "var(--text-secondary)";
-                }}
-              >
+              <button className="action-btn-secondary">
                 <Settings size={16} /> Pengaturan
               </button>
             </div>
@@ -187,177 +70,34 @@ export default function AccountDetailFB({ page }: AccountDetailFBProps) {
         </div>
 
         {/* Stats Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "16px",
-          }}
-        >
-          <div
-            style={{
-              padding: "16px",
-              backgroundColor: "rgba(255,255,255,0.02)",
-              borderRadius: "12px",
-              border: "1px solid var(--border-color)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.75rem",
-                color: "var(--text-secondary)",
-                marginBottom: "4px",
-              }}
-            >
-              Pengikut
-            </p>
-            <p
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 700,
-                color: "var(--text-primary)",
-              }}
-            >
-              {page.followers.toLocaleString("id-ID")}
-            </p>
+        <div className="stats-grid-box">
+          <div className="stat-item">
+            <p className="stat-label">Pengikut</p>
+            <p className="stat-val">{page.followers.toLocaleString("id-ID")}</p>
           </div>
 
-          <div
-            style={{
-              padding: "16px",
-              backgroundColor: "rgba(255,255,255,0.02)",
-              borderRadius: "12px",
-              border: "1px solid var(--border-color)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.75rem",
-                color: "var(--text-secondary)",
-                marginBottom: "4px",
-              }}
-            >
-              Jenis Akun
-            </p>
-            <p
-              style={{
-                fontSize: "1rem",
-                fontWeight: 700,
-                color: "var(--text-primary)",
-              }}
-            >
-              Halaman
-            </p>
+          <div className="stat-item">
+            <p className="stat-label">Jenis Akun</p>
+            <p className="stat-val text-md">Halaman</p>
           </div>
 
-          <div
-            style={{
-              padding: "16px",
-              backgroundColor: "rgba(255,255,255,0.02)",
-              borderRadius: "12px",
-              border: "1px solid var(--border-color)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.75rem",
-                color: "var(--text-secondary)",
-                marginBottom: "4px",
-              }}
-            >
-              Status
-            </p>
-            <p
-              style={{
-                fontSize: "0.95rem",
-                fontWeight: 700,
-                color: "var(--success)",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  backgroundColor: "var(--success)",
-                }}
-              />
+          <div className="stat-item">
+            <p className="stat-label">Status</p>
+            <p className="stat-val status-active">
+              <span className="status-dot" />
               Aktif
             </p>
           </div>
         </div>
       </div>
 
-      {/* Quick Info */}
-      <div className="glass-card">
-        <h4
-          style={{
-            fontSize: "0.95rem",
-            fontWeight: 600,
-            marginBottom: "16px",
-            color: "var(--text-primary)",
-          }}
-        >
-          Informasi Akun
-        </h4>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "12px 0",
-              borderBottom: "1px solid var(--border-color)",
-              fontSize: "0.85rem",
-            }}
-          >
-            <span style={{ color: "var(--text-secondary)" }}>ID Halaman</span>
-            <span
-              style={{
-                color: "var(--text-primary)",
-                fontFamily: "monospace",
-                fontSize: "0.8rem",
-              }}
-            >
-              {page.id}
-            </span>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "12px 0",
-              borderBottom: "1px solid var(--border-color)",
-              fontSize: "0.85rem",
-            }}
-          >
-            <span style={{ color: "var(--text-secondary)" }}>Platform</span>
-            <span
-              style={{
-                color: "var(--text-primary)",
-                textTransform: "capitalize",
-                fontWeight: 500,
-              }}
-            >
-              {page.platform}
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* Live Facebook Posts embedded here! */}
-      <PostFB pageId={page.id} accessToken={page.accessToken || ''} />
-      
+      <PostFB
+        pageId={page.id}
+        accessToken={page.accessToken || ""}
+        pageName={page.name}
+        pageAvatar={page.avatar}
+      />
     </div>
   );
 }

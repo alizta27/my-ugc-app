@@ -1,5 +1,5 @@
-import { Check, AlertCircle, Mail, Lock, User as UserIcon } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+import { Check, AlertCircle, Mail, Lock, User as UserIcon } from "lucide-react";
+import { useApp } from "../context/AppContext";
 
 export default function Auth() {
   const {
@@ -18,7 +18,7 @@ export default function Auth() {
     authError,
     setAuthError,
     handleLogin,
-    handleRegister
+    handleRegister,
   } = useApp();
 
   return (
@@ -26,34 +26,42 @@ export default function Auth() {
       <div className="splash-left">
         <div className="logo-section">
           <div className="logo-icon">U</div>
-          <span className="logo-text">UGC Hub</span>
+          <span className="logo-text">SAPMA Hub</span>
         </div>
 
         <div className="splash-hero-details">
           <div className="splash-badge">⚡ MVP Prototype</div>
           <h1 className="splash-title">Publikasikan Konten Anda Sekaligus.</h1>
           <p className="splash-subtitle">
-            Platform management konten UGC (User Generated Content) sederhana. Hubungkan akun Instagram & Facebook Page Anda, tulis postingan, dan unggah media dalam satu dashboard terpadu.
+            Platform management konten UGC (User Generated Content) sederhana.
+            Hubungkan akun Instagram & Facebook Page Anda, tulis postingan, dan
+            unggah media dalam satu dashboard terpadu.
           </p>
 
           <div className="splash-features-mini">
             <div className="splash-feature-item">
-              <div className="feature-check"><Check size={12} /></div>
+              <div className="feature-check">
+                <Check size={12} />
+              </div>
               <span>Satu Form untuk Multiplatform (FB & IG)</span>
             </div>
             <div className="splash-feature-item">
-              <div className="feature-check"><Check size={12} /></div>
+              <div className="feature-check">
+                <Check size={12} />
+              </div>
               <span>Live Feed Preview Real-time</span>
             </div>
             <div className="splash-feature-item">
-              <div className="feature-check"><Check size={12} /></div>
+              <div className="feature-check">
+                <Check size={12} />
+              </div>
               <span>Dashboard Analytics Interaktif & Riwayat Status</span>
             </div>
           </div>
         </div>
 
-        <div className="text-muted" style={{ fontSize: '0.8rem' }}>
-          © 2026 UGC Hub. Semua hak dilindungi.
+        <div className="text-muted copy-text">
+          © 2026 SAPMA SOSMED Hub. Semua hak dilindungi.
         </div>
       </div>
 
@@ -61,12 +69,14 @@ export default function Auth() {
         <div className="glass-card login-card-inner">
           <div className="auth-header">
             <h2 className="auth-title">
-              {authTab === 'login' ? 'Selamat Datang Kembali' : 'Daftar Akun Baru'}
+              {authTab === "login"
+                ? "Selamat Datang Kembali"
+                : "Daftar Akun Baru"}
             </h2>
             <p className="auth-desc">
-              {authTab === 'login'
-                ? 'Silakan masuk menggunakan akun dummy Anda'
-                : 'Buat akun dummy untuk mencoba aplikasi'}
+              {authTab === "login"
+                ? "Silakan masuk menggunakan akun dummy Anda"
+                : "Buat akun dummy untuk mencoba aplikasi"}
             </p>
           </div>
 
@@ -77,10 +87,12 @@ export default function Auth() {
             </div>
           )}
 
-          {authTab === 'login' ? (
+          {authTab === "login" ? (
             <form onSubmit={handleLogin} className="fade-in">
               <div className="form-group">
-                <label className="form-label"><Mail size={16} /> Email</label>
+                <label className="form-label">
+                  <Mail size={16} /> Email
+                </label>
                 <input
                   type="email"
                   className="form-input"
@@ -90,7 +102,9 @@ export default function Auth() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label"><Lock size={16} /> Password</label>
+                <label className="form-label">
+                  <Lock size={16} /> Password
+                </label>
                 <input
                   type="password"
                   className="form-input"
@@ -99,13 +113,22 @@ export default function Auth() {
                   placeholder="••••••••"
                 />
               </div>
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '12px' }}>
+              <button
+                type="submit"
+                className="btn btn-primary btn-full mt-3"
+              >
                 Masuk Sekarang
               </button>
 
-              <p className="text-muted" style={{ fontSize: '0.85rem', marginTop: '24px', textAlign: 'center' }}>
-                Belum punya akun?{' '}
-                <span className="auth-switch-link" onClick={() => { setAuthTab('register'); setAuthError(''); }}>
+              <p className="text-muted auth-footer-text">
+                Belum punya akun?{" "}
+                <span
+                  className="auth-switch-link"
+                  onClick={() => {
+                    setAuthTab("register");
+                    setAuthError("");
+                  }}
+                >
                   Daftar di sini
                 </span>
               </p>
@@ -113,7 +136,9 @@ export default function Auth() {
           ) : (
             <form onSubmit={handleRegister} className="fade-in">
               <div className="form-group">
-                <label className="form-label"><UserIcon size={16} /> Nama Lengkap</label>
+                <label className="form-label">
+                  <UserIcon size={16} /> Nama Lengkap
+                </label>
                 <input
                   type="text"
                   className="form-input"
@@ -124,7 +149,9 @@ export default function Auth() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label"><Mail size={16} /> Email</label>
+                <label className="form-label">
+                  <Mail size={16} /> Email
+                </label>
                 <input
                   type="email"
                   className="form-input"
@@ -135,7 +162,9 @@ export default function Auth() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label"><Lock size={16} /> Password Baru</label>
+                <label className="form-label">
+                  <Lock size={16} /> Password Baru
+                </label>
                 <input
                   type="password"
                   className="form-input"
@@ -145,13 +174,22 @@ export default function Auth() {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '12px' }}>
+              <button
+                type="submit"
+                className="btn btn-primary btn-full mt-3"
+              >
                 Buat Akun & Masuk
               </button>
 
-              <p className="text-muted" style={{ fontSize: '0.85rem', marginTop: '24px', textAlign: 'center' }}>
-                Sudah punya akun?{' '}
-                <span className="auth-switch-link" onClick={() => { setAuthTab('login'); setAuthError(''); }}>
+              <p className="text-muted auth-footer-text">
+                Sudah punya akun?{" "}
+                <span
+                  className="auth-switch-link"
+                  onClick={() => {
+                    setAuthTab("login");
+                    setAuthError("");
+                  }}
+                >
                   Masuk di sini
                 </span>
               </p>

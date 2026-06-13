@@ -20,7 +20,7 @@ export default function AccountDetail() {
   }
 
   return (
-    <div className="fade-in glass-card" style={{ padding: '48px', textAlign: 'center' }}>
+    <div className="fade-in glass-card unsupported-platform">
       <h3>Platform tidak didukung</h3>
     </div>
   );

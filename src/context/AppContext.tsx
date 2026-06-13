@@ -95,6 +95,7 @@ export const getInitialPages = (): ConnectedPage[] => {
       platform: 'facebook',
       name: conn.page.name,
       username: conn.page.name.toLowerCase().replace(/\s+/g, '.'),
+      bio: conn.page.about,
       avatar: conn.page.picture || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
       isConnected: true,
       connectedAt: conn.connectedAt,
